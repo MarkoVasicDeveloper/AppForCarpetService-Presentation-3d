@@ -1,0 +1,21 @@
+{
+  "name": "carpet-service-presentation",
+  "version": "1.0.0",
+  "description": "App for carpet service - presentation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Marko Vasic",
+  "license": "ISC",
+  "dependencies": {
+    "gsap": "^3.12.1",
+    "three": "^0.153.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-glsl": "^2.9.2",
+    "@parcel/transformer-image": "^2.9.2",
+    "dat.gui": "^0.7.9",
+    "parcel": "^2.9.2"
+  }
+}
