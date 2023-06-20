@@ -397,3 +397,30 @@ footer {
   color: #fff;
   z-index: 10;
 }
+
+@media (max-width: 768px) {
+  h1, h2 {
+    text-align: left;
+    font-size: 1.2rem;
+  }
+
+  header > .nav-holder > .menu {
+    background-color: #11111199;
+  }
+
+  p {
+    text-indent: 0.5rem;
+    font-size: 0.8rem;
+    text-align: left;
+  }
+
+  .transform {
+    width: 40%;
+    padding-top: 5%;
+    padding-inline: 0.5rem;
+  }
+
+  .socialLinks span {
+    font-size: 1.1rem;
+  }
+}
