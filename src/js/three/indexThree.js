@@ -3,7 +3,10 @@ import * as THREE from 'three';
 import { Stage } from "./Stage";
 import { imageParticle } from './imageParticle';
 import { textures } from './textures';
-import { next, prev } from './animations/imageAndContentTransition';
+
+import { imageAndContentTransition, next, prev } from './animations/imageAndContentTransition';
+import { mouseDown } from './animations/mouseDown';
+import { mouseUp } from './animations/mouseUp';
 
 import { mousePoints, raycasterIntercept } from './raycaster/raycasterIntercept';
 import { backgroundParticle } from './backgroundParticle';
@@ -18,6 +21,20 @@ const { bgMesh, bgMaterial } = backgroundParticle(time);
 
 scene.add(mesh);
 scene.add(bgMesh);
+
+window.addEventListener('resize', () => onResize(camera, renderer));
+
+window.addEventListener('wheel', (e) => {
+    move += e.deltaY / 1000;
+    imageAndContentTransition(material.uniforms.transition, material.uniforms.moveImage);
+});
+
+window.addEventListener('touchmove', () => {
+    imageAndContentTransition(material.uniforms.transition, material.uniforms.moveImage);
+});
+
+window.addEventListener('mousedown', (e) => mouseDown(material.uniforms.mousePressed));
+window.addEventListener('mouseup', () => mouseUp(material.uniforms.mousePressed));
 
 function animation() {
   material.uniforms.texture1.value = textures[prev];
