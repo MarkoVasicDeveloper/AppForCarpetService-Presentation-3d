@@ -582,6 +582,7 @@ var _circleAnimation = require("./src/js/2d/animations/circle/circleAnimation");
 var _hideAnimation = require("./src/js/2d/animations/hideNav/hideAnimation");
 var _mouseLeave = require("./src/js/2d/animations/horisontalLines/mouseLeave");
 var _mouseMove = require("./src/js/2d/animations/horisontalLines/mouseMove");
+var _socialLink = require("./src/js/2d/animations/socialLink/socialLink");
 const navButton = document.querySelector(".nav-button");
 const navBar = document.querySelector(".menu");
 const line = document.querySelector(".line");
@@ -591,13 +592,19 @@ const spiner = document.querySelector(".spiner");
 let counter = 0;
 const setCounter = (value)=>counter = value;
 navButton.addEventListener("click", ()=>{
-    if (counter === 0) (0, _circleAnimation.circleAnimation)(spiner, navBar, line, horisontalLines, liSpan);
-    if (counter === 1) (0, _hideAnimation.hideAnimation)(line, liSpan, horisontalLines, navBar);
+    if (counter === 0) {
+        (0, _socialLink.socialLinksMove)();
+        (0, _circleAnimation.circleAnimation)(spiner, navBar, line, horisontalLines, liSpan);
+    }
+    if (counter === 1) {
+        (0, _socialLink.socialLinkBack)();
+        (0, _hideAnimation.hideAnimation)(line, liSpan, horisontalLines, navBar);
+    }
 });
 navBar.addEventListener("mousemove", (e)=>(0, _mouseMove.mouseMove)(horisontalLines, e));
 navBar.addEventListener("mouseleave", ()=>(0, _mouseLeave.mouseLeave)(horisontalLines));
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./src/js/2d/animations/circle/circleAnimation":"kSlU9","./src/js/2d/animations/hideNav/hideAnimation":"5KK5P","./src/js/2d/animations/horisontalLines/mouseLeave":"jEJtz","./src/js/2d/animations/horisontalLines/mouseMove":"5oeD2"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./src/js/2d/animations/circle/circleAnimation":"kSlU9","./src/js/2d/animations/hideNav/hideAnimation":"5KK5P","./src/js/2d/animations/horisontalLines/mouseLeave":"jEJtz","./src/js/2d/animations/horisontalLines/mouseMove":"5oeD2","./src/js/2d/animations/socialLink/socialLink":"cZFmK"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -4789,6 +4796,46 @@ function mouseMove(horisontalLines, e) {
             duration: 0.5,
             x: 80
         });
+    });
+}
+
+},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cZFmK":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "socialLinksMove", ()=>socialLinksMove);
+parcelHelpers.export(exports, "socialLinkBack", ()=>socialLinkBack);
+var _gsap = require("gsap");
+var _gsapDefault = parcelHelpers.interopDefault(_gsap);
+const socialLinks = document.querySelectorAll(".socialLinks span");
+const socialTimeline = (0, _gsapDefault.default).timeline();
+function socialLinksMove() {
+    socialTimeline.to(socialLinks[0], {
+        duration: 0.1,
+        scale: 0.5
+    }).to(socialLinks[0], {
+        duration: 0.1,
+        rotate: -90,
+        x: -180,
+        yPercent: 70
+    }).to(socialLinks[0], {
+        duration: 0.1,
+        scale: 1
+    });
+}
+const socialTimelineBack = (0, _gsapDefault.default).timeline();
+function socialLinkBack() {
+    socialTimelineBack.to(socialLinks[0], {
+        delay: 1,
+        duration: 0.1,
+        scaleY: 0
+    }).to(socialLinks[0], {
+        duration: 0.1,
+        rotate: 0,
+        x: 0,
+        yPercent: 0
+    }).to(socialLinks[0], {
+        duration: 0.1,
+        scaleY: 1
     });
 }
 

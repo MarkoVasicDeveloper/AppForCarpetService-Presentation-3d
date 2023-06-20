@@ -145,3 +145,190 @@ header > .nav-holder > .menu > .nav-animation div hr {
   width: 100%;
   transform: translate(100%);
 }
+
+section {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  padding: 5%;
+  color: #FFF;
+  display: flex;
+  justify-content: space-between;
+}
+
+.transform {
+  width: 30%;
+  padding-top: 5%;
+  padding-inline: 1rem;
+  transform: translate(-200%);
+  position: relative;
+}
+
+/* neon */
+
+.uvLampDiv{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background: #111;
+  z-index: 10;
+}
+
+.uvLampDiv > .lamp{
+    width: 5px;
+    height: 100%;
+    border-radius: 3px;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgb(4, 129, 179),
+                 0 0 40px rgb(4, 129, 179),
+                 0 0 80px rgb(4, 129, 179),
+                 0 0 160px rgb(4, 129, 179);
+    transform: scale(0);
+}
+
+/* neon end */
+
+/* fire */
+
+.fire{
+    width: 0;
+    height: 0;
+}
+
+section .fireH2{
+  filter: url(#fire);
+  font-size: 2rem;
+  color: #ff8c3b;
+  text-shadow: 0 0 10px #ff8c3b,
+                  0 0 40px #ff8c3b,
+                  0 0 80px #ff8c3b;
+  -webkit-box-reflect: below -10px linear-gradient(transparent, #0003);
+}
+
+/* fire end */
+
+/* Jumping letter */
+
+section div .jumping-letter span {
+  position: relative;
+  display: inline-block;
+  animation: jumpingLetter 3s ease infinite;
+  color: #fec400;
+}
+
+@keyframes jumpingLetter {
+    0%{
+        transform: translateY(0%) rotate(0deg);
+    }
+    40%{
+        transform: translateY(0%) rotate(0deg);
+    }
+    50%{
+        transform: translateY(-50%) rotate(180deg);
+    }
+    60%{
+        transform: translateY(0%) rotate(360deg);
+    }
+    100%{
+        transform: translateY(0%) rotate(360deg);
+    }
+}
+
+.jumping-letter > span:nth-child(1) {
+    animation-delay: .5s;
+}
+.jumping-letter > span:nth-child(2) {
+    animation-delay: .2s;
+}
+.jumping-letter > span:nth-child(3) {
+    animation-delay: .7s;
+}
+.jumping-letter > span:nth-child(4) {
+    animation-delay: .9s;
+}
+.jumping-letter > span:nth-child(5) {
+    animation-delay: .3s;
+}
+.jumping-letter > span:nth-child(6) {
+    animation-delay: .5s;
+}
+.jumping-letter > span:nth-child(7) {
+    animation-delay: 1s;
+}
+.jumping-letter > span:nth-child(8) {
+    animation-delay: .6s;
+}
+.jumping-letter > span:nth-child(9) {
+    animation-delay: 1.1s;
+}
+.jumping-letter > span:nth-child(10) {
+    animation-delay: 1.3s;
+}
+.jumping-letter > span:nth-child(11) {
+    animation-delay: .2s;
+}
+.jumping-letter > span:nth-child(12) {
+    animation-delay: .9s;
+}
+
+/* jumping letter end */
+
+h1, h2 {
+  color: #793ea5;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+p {
+  text-indent: 2rem;
+  font-size: 1rem;
+  text-align: justify;
+}
+
+p span {
+  background-color: #ffff00;
+  padding-inline: 0.3rem;
+  color: #000;
+  font-weight: 900;
+}
+
+.socialLinks {
+  writing-mode: vertical-lr;
+  height: 100%;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.socialLinks span {
+  color: #ccc;
+  font-size: 1.7rem;
+  cursor: pointer;
+  transition: 500ms ease;
+}
+
+.socialLinks span:nth-child(1){
+  color: #fec400;
+}
+
+.socialLinks span:nth-child(1):hover {
+  color: #793ea5;
+}
+
+.socialLinks span:nth-child(2) {
+  margin-inline: 1rem;
+}
+
+.socialLinks span:nth-child(2):hover {
+  color: #793ea5;
+}
+
+.socialLinks span:nth-child(3):hover {
+  color: #793ea5;
+}
