@@ -581,10 +581,61 @@ var _textures = require("./textures");
 var _imageAndContentTransition = require("./animations/imageAndContentTransition");
 var _mouseDown = require("./animations/mouseDown");
 var _mouseUp = require("./animations/mouseUp");
+var _onLoad = require("./onLoad");
+var _contentOnLoad = require("../2d/animations/contentOnLoad/contentOnLoad");
+var _fullScreen = require("../fullScreen");
 var _raycasterIntercept = require("./raycaster/raycasterIntercept");
 var _backgroundParticle = require("./backgroundParticle");
+var _mouseMove = require("../2d/animations/horisontalLines/mouseMove");
 let time = new _three.Clock();
 let move = 0;
+const progressBar = document.getElementById("progressBar");
+const label = document.querySelector("label");
+const enterButton = document.getElementById("enter");
+const loadingContent = document.querySelector(".loadingContent");
+const logo = document.querySelector("svg text");
+let strokeOfset = 2550;
+(0, _textures.loadingManager).onProgress = function(url, loaded, total) {
+    progressBar.value = loaded / total * 100;
+    strokeOfset -= loaded / total * 400;
+    if (strokeOfset < 0) strokeOfset = 0;
+    logo.style.strokeDashoffset = strokeOfset;
+};
+(0, _textures.loadingManager).onLoad = function() {
+    enterButton.classList.remove("hidden");
+    progressBar.classList.add("hidden");
+    label.innerText = "Ready!";
+};
+screen.orientation.addEventListener("change", ()=>{
+    (0, _fullScreen.launchFullScreen)(document.documentElement);
+    if (screen.orientation.type === "landscape-secondary" || screen.orientation.type === "landscape-primary") {
+        loadingContent.style.display = "none";
+        (0, _onLoad.onLoad)(material.uniforms.transition);
+        (0, _contentOnLoad.contentOnLoad)();
+        return;
+    }
+    loadingContent.style.display = "flex";
+    label.innerText = "Rotate device!";
+    return;
+});
+enterButton.onclick = ()=>{
+    if (window.innerHeight > window.innerWidth) {
+        enterButton.style.display = "none";
+        (0, _fullScreen.launchFullScreen)(document.documentElement);
+        if (screen.orientation.type === "landscape" || screen.orientation.type === "landscape-primary") {
+            loadingContent.style.display = "none";
+            (0, _onLoad.onLoad)(material.uniforms.transition);
+            (0, _contentOnLoad.contentOnLoad)();
+            return;
+        }
+        loadingContent.style.display = "flex";
+        label.innerText = "Rotate device!";
+        return;
+    }
+    loadingContent.style.display = "none";
+    (0, _onLoad.onLoad)(material.uniforms.transition);
+    (0, _contentOnLoad.contentOnLoad)();
+};
 const { camera , scene , renderer  } = (0, _stage.Stage)();
 const { mesh , material  } = (0, _imageParticle.imageParticle)();
 const { bgMesh , bgMaterial  } = (0, _backgroundParticle.backgroundParticle)(time);
@@ -594,6 +645,10 @@ window.addEventListener("resize", ()=>onResize(camera, renderer));
 window.addEventListener("wheel", (e)=>{
     move += e.deltaY / 1000;
     (0, _imageAndContentTransition.imageAndContentTransition)(material.uniforms.transition, material.uniforms.moveImage);
+});
+window.addEventListener("mousemove", (event)=>{
+    (0, _raycasterIntercept.raycasterIntercept)(event, camera);
+    (0, _mouseMove.mouseMove)(material.uniforms.mouseMoveX, material.uniforms.mouseMoveY);
 });
 window.addEventListener("touchmove", ()=>{
     (0, _imageAndContentTransition.imageAndContentTransition)(material.uniforms.transition, material.uniforms.moveImage);
@@ -614,7 +669,7 @@ function animation() {
 }
 animation();
 
-},{"three":"ktPTu","./Stage":"ezQx2","./imageParticle":"RO5aq","./textures":"emS5T","./animations/imageAndContentTransition":"mjAI1","./raycaster/raycasterIntercept":"lN1Gy","./backgroundParticle":"6uRkp","./animations/mouseDown":"j4oQU","./animations/mouseUp":"fK3iG"}],"ktPTu":[function(require,module,exports) {
+},{"three":"ktPTu","./Stage":"ezQx2","./imageParticle":"RO5aq","./textures":"emS5T","./animations/imageAndContentTransition":"mjAI1","./raycaster/raycasterIntercept":"lN1Gy","./backgroundParticle":"6uRkp","./animations/mouseDown":"j4oQU","./animations/mouseUp":"fK3iG","./onLoad":"83lUv","../fullScreen":"7fBBF","../2d/animations/contentOnLoad/contentOnLoad":"fbkhO","../2d/animations/horisontalLines/mouseMove":"5oeD2"}],"ktPTu":[function(require,module,exports) {
 /**
  * @license
  * Copyright 2010-2023 Three.js Authors
@@ -31762,6 +31817,63 @@ function mouseUp(mousePressed) {
         value: 0,
         ease: "elastic.out(1, 0.3)"
     });
+}
+
+},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"83lUv":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "onLoad", ()=>onLoad);
+var _gsap = require("gsap");
+var _gsapDefault = parcelHelpers.interopDefault(_gsap);
+function onLoad(transition) {
+    (0, _gsapDefault.default).to(transition, {
+        delay: 1,
+        duration: 2,
+        value: 1
+    });
+}
+
+},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7fBBF":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "launchFullScreen", ()=>launchFullScreen);
+function launchFullScreen(element) {
+    if (element.requestFullScreen) element.requestFullScreen();
+    else if (element.mozRequestFullScreen) element.mozRequestFullScreen();
+    else if (element.webkitRequestFullScreen) element.webkitRequestFullScreen();
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fbkhO":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "loaded", ()=>loaded);
+parcelHelpers.export(exports, "contentOnLoad", ()=>contentOnLoad);
+var _gsap = require("gsap");
+var _gsapDefault = parcelHelpers.interopDefault(_gsap);
+const home = document.querySelector(".home");
+const lampDiv = document.querySelectorAll(".uvLampDiv");
+const lampDivArray = Array.from(lampDiv);
+const lamp = document.querySelectorAll(".lamp");
+const lampArray = Array.from(lamp);
+const lampTimeline = (0, _gsapDefault.default).timeline();
+let loaded = false;
+function contentOnLoad() {
+    if (loaded) return;
+    lampTimeline.to(home, {
+        delay: 2.7,
+        duration: 0.1,
+        xPercent: 200
+    }).to(lampArray[0], {
+        duration: 0.5,
+        scale: 1
+    }).to(lampDivArray[0], {
+        duration: 1,
+        width: 5
+    }).to(lampArray[0], {
+        duration: 0.5,
+        scale: 0
+    });
+    loaded = true;
 }
 
 },{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["8DoVP","eUHT3"], "eUHT3", "parcelRequire749e")
