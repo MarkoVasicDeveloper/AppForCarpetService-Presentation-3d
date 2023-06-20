@@ -7,9 +7,10 @@
   font-family: Kalam, cursive;
 }
 
-body {
+html, body {
   width: 100%;
   height: 100%;
+  position: relative;
   overflow: hidden;
 }
 
@@ -332,13 +333,13 @@ p span {
 }
 
 .loadingContent {
-  z-index: 100;
+  z-index: 1000000000;
   background: #555;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   position: absolute;
   top: 0;
@@ -392,6 +393,33 @@ footer {
   position: absolute;
   bottom: 0;
   left: 0;
+}
+
+@media (width <= 768px) {
+  h1, h2 {
+    text-align: left;
+    font-size: 1.2rem;
+  }
+
+  header > .nav-holder > .menu {
+    background-color: #1119;
+  }
+
+  p {
+    text-indent: .5rem;
+    text-align: left;
+    font-size: .8rem;
+  }
+
+  .transform {
+    padding-top: 5%;
+    width: 40%;
+    padding-inline: .5rem;
+  }
+
+  .socialLinks span {
+    font-size: 1.1rem;
+  }
 }
 
 /*# sourceMappingURL=index.3a01df49.css.map */

@@ -583,6 +583,7 @@ var _hideAnimation = require("./src/js/2d/animations/hideNav/hideAnimation");
 var _mouseLeave = require("./src/js/2d/animations/horisontalLines/mouseLeave");
 var _mouseMove = require("./src/js/2d/animations/horisontalLines/mouseMove");
 var _socialLink = require("./src/js/2d/animations/socialLink/socialLink");
+var _fullScreen = require("./src/js/fullScreen");
 const navButton = document.querySelector(".nav-button");
 const navBar = document.querySelector(".menu");
 const line = document.querySelector(".line");
@@ -591,6 +592,7 @@ const horisontalLines = document.querySelectorAll("hr");
 const spiner = document.querySelector(".spiner");
 let counter = 0;
 const setCounter = (value)=>counter = value;
+document.addEventListener("loadstart", ()=>(0, _fullScreen.launchFullScreen)(document));
 navButton.addEventListener("click", ()=>{
     if (counter === 0) {
         (0, _socialLink.socialLinksMove)();
@@ -604,37 +606,7 @@ navButton.addEventListener("click", ()=>{
 navBar.addEventListener("mousemove", (e)=>(0, _mouseMove.mouseMove)(horisontalLines, e));
 navBar.addEventListener("mouseleave", ()=>(0, _mouseLeave.mouseLeave)(horisontalLines));
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./src/js/2d/animations/circle/circleAnimation":"kSlU9","./src/js/2d/animations/hideNav/hideAnimation":"5KK5P","./src/js/2d/animations/horisontalLines/mouseLeave":"jEJtz","./src/js/2d/animations/horisontalLines/mouseMove":"5oeD2","./src/js/2d/animations/socialLink/socialLink":"cZFmK"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"kSlU9":[function(require,module,exports) {
+},{"./src/js/2d/animations/circle/circleAnimation":"kSlU9","./src/js/2d/animations/hideNav/hideAnimation":"5KK5P","./src/js/2d/animations/horisontalLines/mouseLeave":"jEJtz","./src/js/2d/animations/horisontalLines/mouseMove":"5oeD2","./src/js/2d/animations/socialLink/socialLink":"cZFmK","./src/js/fullScreen":"7fBBF","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kSlU9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "tl3", ()=>tl3);
@@ -3703,7 +3675,37 @@ _coreReady = 1;
 _windowExists() && _wake();
 var Power0 = _easeMap.Power0, Power1 = _easeMap.Power1, Power2 = _easeMap.Power2, Power3 = _easeMap.Power3, Power4 = _easeMap.Power4, Linear = _easeMap.Linear, Quad = _easeMap.Quad, Cubic = _easeMap.Cubic, Quart = _easeMap.Quart, Quint = _easeMap.Quint, Strong = _easeMap.Strong, Elastic = _easeMap.Elastic, Back = _easeMap.Back, SteppedEase = _easeMap.SteppedEase, Bounce = _easeMap.Bounce, Sine = _easeMap.Sine, Expo = _easeMap.Expo, Circ = _easeMap.Circ;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l02JQ":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"l02JQ":[function(require,module,exports) {
 /*!
  * CSSPlugin 3.12.1
  * https://greensock.com
@@ -4839,6 +4841,16 @@ function socialLinkBack() {
     });
 }
 
-},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["2UeK4","bB7Pu"], "bB7Pu", "parcelRequire749e")
+},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7fBBF":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "launchFullScreen", ()=>launchFullScreen);
+function launchFullScreen(element) {
+    if (element.requestFullScreen) element.requestFullScreen();
+    else if (element.mozRequestFullScreen) element.mozRequestFullScreen();
+    else if (element.webkitRequestFullScreen) element.webkitRequestFullScreen();
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["2UeK4","bB7Pu"], "bB7Pu", "parcelRequire749e")
 
 //# sourceMappingURL=index.3d214d75.js.map

@@ -576,72 +576,31 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 },{}],"eUHT3":[function(require,module,exports) {
 var _three = require("three");
 var _stage = require("./Stage");
+var _onResize = require("./onResize");
+var _backgroundParticle = require("./backgroundParticle");
 var _imageParticle = require("./imageParticle");
 var _textures = require("./textures");
-var _imageAndContentTransition = require("./animations/imageAndContentTransition");
-var _mouseDown = require("./animations/mouseDown");
 var _mouseUp = require("./animations/mouseUp");
-var _onLoad = require("./onLoad");
-var _contentOnLoad = require("../2d/animations/contentOnLoad/contentOnLoad");
-var _fullScreen = require("../fullScreen");
+var _mouseDown = require("./animations/mouseDown");
+var _mouseMove = require("./animations/mouseMove");
+var _imageAndContentTransition = require("./animations/imageAndContentTransition");
 var _raycasterIntercept = require("./raycaster/raycasterIntercept");
-var _backgroundParticle = require("./backgroundParticle");
-var _mouseMove = require("../2d/animations/horisontalLines/mouseMove");
-let time = new _three.Clock();
-let move = 0;
-const progressBar = document.getElementById("progressBar");
+var _screenOrientation = require("./animations/screenOrientation");
+var _loadingBar = require("./loadingBar");
+var _fullScreen = require("../fullScreen");
 const label = document.querySelector("label");
 const enterButton = document.getElementById("enter");
 const loadingContent = document.querySelector(".loadingContent");
-const logo = document.querySelector("svg text");
-let strokeOfset = 2550;
-(0, _textures.loadingManager).onProgress = function(url, loaded, total) {
-    progressBar.value = loaded / total * 100;
-    strokeOfset -= loaded / total * 400;
-    if (strokeOfset < 0) strokeOfset = 0;
-    logo.style.strokeDashoffset = strokeOfset;
-};
-(0, _textures.loadingManager).onLoad = function() {
-    enterButton.classList.remove("hidden");
-    progressBar.classList.add("hidden");
-    label.innerText = "Ready!";
-};
-screen.orientation.addEventListener("change", ()=>{
-    (0, _fullScreen.launchFullScreen)(document.documentElement);
-    if (screen.orientation.type === "landscape-secondary" || screen.orientation.type === "landscape-primary") {
-        loadingContent.style.display = "none";
-        (0, _onLoad.onLoad)(material.uniforms.transition);
-        (0, _contentOnLoad.contentOnLoad)();
-        return;
-    }
-    loadingContent.style.display = "flex";
-    label.innerText = "Rotate device!";
-    return;
-});
-enterButton.onclick = ()=>{
-    if (window.innerHeight > window.innerWidth) {
-        enterButton.style.display = "none";
-        (0, _fullScreen.launchFullScreen)(document.documentElement);
-        if (screen.orientation.type === "landscape" || screen.orientation.type === "landscape-primary") {
-            loadingContent.style.display = "none";
-            (0, _onLoad.onLoad)(material.uniforms.transition);
-            (0, _contentOnLoad.contentOnLoad)();
-            return;
-        }
-        loadingContent.style.display = "flex";
-        label.innerText = "Rotate device!";
-        return;
-    }
-    loadingContent.style.display = "none";
-    (0, _onLoad.onLoad)(material.uniforms.transition);
-    (0, _contentOnLoad.contentOnLoad)();
-};
+let time = new _three.Clock();
+let move = 0;
 const { camera , scene , renderer  } = (0, _stage.Stage)();
-const { mesh , material  } = (0, _imageParticle.imageParticle)();
 const { bgMesh , bgMaterial  } = (0, _backgroundParticle.backgroundParticle)(time);
-scene.add(mesh);
+const { mesh , material  } = (0, _imageParticle.imageParticle)();
 scene.add(bgMesh);
-window.addEventListener("resize", ()=>onResize(camera, renderer));
+scene.add(mesh);
+screen.orientation.addEventListener("change", ()=>(0, _screenOrientation.screenOrientation)(loadingContent, label, material.uniforms.transition));
+enterButton.addEventListener("click", ()=>(0, _loadingBar.enter)(material.uniforms.transition));
+window.addEventListener("resize", ()=>(0, _onResize.onResize)(camera, renderer));
 window.addEventListener("wheel", (e)=>{
     move += e.deltaY / 1000;
     (0, _imageAndContentTransition.imageAndContentTransition)(material.uniforms.transition, material.uniforms.moveImage);
@@ -669,7 +628,7 @@ function animation() {
 }
 animation();
 
-},{"three":"ktPTu","./Stage":"ezQx2","./imageParticle":"RO5aq","./textures":"emS5T","./animations/imageAndContentTransition":"mjAI1","./raycaster/raycasterIntercept":"lN1Gy","./backgroundParticle":"6uRkp","./animations/mouseDown":"j4oQU","./animations/mouseUp":"fK3iG","./onLoad":"83lUv","../fullScreen":"7fBBF","../2d/animations/contentOnLoad/contentOnLoad":"fbkhO","../2d/animations/horisontalLines/mouseMove":"5oeD2"}],"ktPTu":[function(require,module,exports) {
+},{"three":"ktPTu","./Stage":"ezQx2","./onResize":"cqkBa","./backgroundParticle":"6uRkp","./imageParticle":"RO5aq","./textures":"emS5T","./animations/mouseUp":"fK3iG","./animations/mouseDown":"j4oQU","./animations/mouseMove":"ep0M0","./animations/imageAndContentTransition":"mjAI1","./raycaster/raycasterIntercept":"lN1Gy","./animations/screenOrientation":"lWedg","./loadingBar":"blFYa","../fullScreen":"7fBBF"}],"ktPTu":[function(require,module,exports) {
 /**
  * @license
  * Copyright 2010-2023 Three.js Authors
@@ -31424,7 +31383,111 @@ class OrbitControls extends (0, _three.EventDispatcher) {
     }
 }
 
-},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"RO5aq":[function(require,module,exports) {
+},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cqkBa":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "onResize", ()=>onResize);
+function onResize(camera, renderer) {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6uRkp":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "backgroundParticle", ()=>backgroundParticle);
+var _three = require("three");
+var _backgroundFragmentGlsl = require("./shaders/backgroundFragment.glsl");
+var _backgroundFragmentGlslDefault = parcelHelpers.interopDefault(_backgroundFragmentGlsl);
+var _backgroundVertexGlsl = require("./shaders/backgroundVertex.glsl");
+var _backgroundVertexGlslDefault = parcelHelpers.interopDefault(_backgroundVertexGlsl);
+var _letterWMinPng = require("../../img/letter-w-min.png");
+var _letterWMinPngDefault = parcelHelpers.interopDefault(_letterWMinPng);
+function backgroundParticle(time) {
+    let numberOfPoints = 2304;
+    const bgGeometry = new _three.BufferGeometry();
+    const bgPosition = new _three.BufferAttribute(new Float32Array(numberOfPoints * 3), 3);
+    let bgIndex = 0;
+    for(let i = 0; i < 48; i++){
+        let posX = i - 24;
+        for(let j = 0; j < 48; j++){
+            bgPosition.setXYZ(bgIndex, posX * 50, (j - 24) * 50, Math.random() * 20000);
+            bgIndex++;
+        }
+    }
+    const bgMaterial = new _three.ShaderMaterial({
+        fragmentShader: (0, _backgroundFragmentGlslDefault.default),
+        vertexShader: (0, _backgroundVertexGlslDefault.default),
+        uniforms: {
+            time: {
+                type: "f",
+                time
+            },
+            texture1: {
+                type: "t",
+                value: new _three.TextureLoader().load((0, _letterWMinPngDefault.default))
+            }
+        },
+        transparent: true,
+        depthTest: false,
+        depthWrite: false
+    });
+    const bgMesh = new _three.Points(bgGeometry, bgMaterial);
+    bgMesh.position.z = -2010;
+    bgGeometry.setAttribute("position", bgPosition);
+    return {
+        bgMesh,
+        bgMaterial
+    };
+}
+
+},{"three":"ktPTu","./shaders/backgroundFragment.glsl":"169to","./shaders/backgroundVertex.glsl":"fNaSv","../../img/letter-w-min.png":"72GNU","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"169to":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nvarying vec2 vUv;\n\nuniform sampler2D texture1;\nvoid main( void ) {\n  vec4 image = texture2D(texture1, gl_PointCoord);\n       \n  gl_FragColor = image;\n}";
+
+},{}],"fNaSv":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nvarying vec2 vUv;\n\nuniform float time;\n\nvoid main() {\n  vUv = uv;\n  \n  vec3 pos = position;\n  \n  pos.z += mod(100. * time, 2000.) - 1000.;\n  vec4 mvPosition = modelViewMatrix * vec4(pos, 1.);\n  gl_PointSize = 5000. * (1. / -mvPosition.z);\n  gl_Position = projectionMatrix * mvPosition;\n}";
+
+},{}],"72GNU":[function(require,module,exports) {
+module.exports = require("f727349419cfedc4").getBundleURL("cToyg") + "letter-w-min.d1e3185a.png" + "?" + Date.now();
+
+},{"f727349419cfedc4":"lgJ39"}],"lgJ39":[function(require,module,exports) {
+"use strict";
+var bundleURL = {};
+function getBundleURLCached(id) {
+    var value = bundleURL[id];
+    if (!value) {
+        value = getBundleURL();
+        bundleURL[id] = value;
+    }
+    return value;
+}
+function getBundleURL() {
+    try {
+        throw new Error();
+    } catch (err) {
+        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
+        if (matches) // The first two stack frames will be this function and getBundleURLCached.
+        // Use the 3rd one, which will be a runtime in the original bundle.
+        return getBaseURL(matches[2]);
+    }
+    return "/";
+}
+function getBaseURL(url) {
+    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
+}
+// TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+function getOrigin(url) {
+    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
+    if (!matches) throw new Error("Origin not found");
+    return matches[0];
+}
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+exports.getOrigin = getOrigin;
+
+},{}],"RO5aq":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "imageParticle", ()=>imageParticle);
@@ -31524,7 +31587,7 @@ function imageParticle() {
     };
 }
 
-},{"three":"ktPTu","./rand":"kAFdt","./textures":"emS5T","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./shaders/fragmentShader.glsl":"ktwVR","./shaders/vertexShader.glsl":"7nUhQ"}],"kAFdt":[function(require,module,exports) {
+},{"three":"ktPTu","./rand":"kAFdt","./shaders/fragmentShader.glsl":"ktwVR","./shaders/vertexShader.glsl":"7nUhQ","./textures":"emS5T","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kAFdt":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "rand", ()=>rand);
@@ -31532,7 +31595,13 @@ function rand(a, b) {
     return a + (b - a) * Math.random();
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"emS5T":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ktwVR":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nvarying vec2 vCoordinates;\n\nuniform sampler2D texture1;\nuniform sampler2D texture2;\nuniform float moveImage;\n\nvoid main() {\n  vec2 myUv = vec2(vCoordinates.x / 512., vCoordinates.y / 512.);\n  vec4 image = texture2D(texture1, myUv);\n  vec4 image2 = texture2D(texture2, myUv);\n\n  vec4 final = mix(image, image2, smoothstep(0., 1., moveImage));\n  \n  gl_FragColor = final;\n}";
+
+},{}],"7nUhQ":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nvarying vec2 vUv;\nvarying vec2 vCoordinates;\nvarying vec3 vPos;\n\nattribute vec3 aCoordinates;\nattribute float aSpeed;\nattribute float aOffset;\nattribute float aDirection;\nattribute float aPress;\n\nuniform float move;\nuniform float time;\nuniform vec2 mouse;\nuniform float mousePressed;\nuniform float transition;\nuniform float mouseMoveX;\nuniform float mouseMoveY;\n\nvoid main() {\n  vUv = uv;\n\n  vec3 pos = position;\n\n  //not stable\n  pos.x += sin(aSpeed) * 5000.;\n  pos.y += sin(aSpeed) * 500.;\n  pos.z = mod(position.z + move * 200. * aSpeed + aOffset, 2000.) - 1000.;\n\n  //stable\n  vec3 stable = position;\n  float dist = distance(stable.xy, mouse);\n  float area = 1. - smoothstep(0., 300., dist);\n\n  stable.x += 50. * sin(time*aPress * 10.) * aDirection * area * mousePressed + (-mouseMoveX) * 0.2;\n  stable.y += 50. * sin(time*aPress * 10.) * aDirection * area * mousePressed + (-mouseMoveY) * 0.2;\n  stable.z += 50. * cos(time*aPress) * aDirection * area * mousePressed;\n\n  pos = mix(pos, stable, transition);\n\n  vec4 mvPosition = modelViewMatrix * vec4(pos, 1.);\n  gl_PointSize = 3500. * (1. / -mvPosition.z);\n  gl_Position = projectionMatrix * mvPosition;\n\n  vCoordinates = aCoordinates.xy;\n  pos = vPos;\n}";
+
+},{}],"emS5T":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "loadingManager", ()=>loadingManager);
@@ -31564,42 +31633,7 @@ const textures = [
 },{"three":"ktPTu","../../img/laptop-min.png":"eLcr8","../../img/laptop-3-min.png":"epMnm","../../img/free-min.png":"2Au8y","../../img/businessman-money-min.png":"1G2DX","../../img/fast-min.png":"hnYTp","../../img/paper-min.png":"kpaEX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eLcr8":[function(require,module,exports) {
 module.exports = require("d9cf18a5c7217100").getBundleURL("cToyg") + "laptop-min.0cfc0079.png" + "?" + Date.now();
 
-},{"d9cf18a5c7217100":"lgJ39"}],"lgJ39":[function(require,module,exports) {
-"use strict";
-var bundleURL = {};
-function getBundleURLCached(id) {
-    var value = bundleURL[id];
-    if (!value) {
-        value = getBundleURL();
-        bundleURL[id] = value;
-    }
-    return value;
-}
-function getBundleURL() {
-    try {
-        throw new Error();
-    } catch (err) {
-        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
-        if (matches) // The first two stack frames will be this function and getBundleURLCached.
-        // Use the 3rd one, which will be a runtime in the original bundle.
-        return getBaseURL(matches[2]);
-    }
-    return "/";
-}
-function getBaseURL(url) {
-    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
-}
-// TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
-function getOrigin(url) {
-    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
-    if (!matches) throw new Error("Origin not found");
-    return matches[0];
-}
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-exports.getOrigin = getOrigin;
-
-},{}],"epMnm":[function(require,module,exports) {
+},{"d9cf18a5c7217100":"lgJ39"}],"epMnm":[function(require,module,exports) {
 module.exports = require("fa2fa04cbd5397c1").getBundleURL("cToyg") + "laptop-3-min.94fd207f.png" + "?" + Date.now();
 
 },{"fa2fa04cbd5397c1":"lgJ39"}],"2Au8y":[function(require,module,exports) {
@@ -31614,13 +31648,78 @@ module.exports = require("711b80883282e15").getBundleURL("cToyg") + "fast-min.cc
 },{"711b80883282e15":"lgJ39"}],"kpaEX":[function(require,module,exports) {
 module.exports = require("b77c48b4fe89fd35").getBundleURL("cToyg") + "paper-min.d6147dcc.png" + "?" + Date.now();
 
-},{"b77c48b4fe89fd35":"lgJ39"}],"ktwVR":[function(require,module,exports) {
-module.exports = "#define GLSLIFY 1\nvarying vec2 vCoordinates;\n\nuniform sampler2D texture1;\nuniform sampler2D texture2;\nuniform float moveImage;\n\nvoid main() {\n  vec2 myUv = vec2(vCoordinates.x / 512., vCoordinates.y / 512.);\n  vec4 image = texture2D(texture1, myUv);\n  vec4 image2 = texture2D(texture2, myUv);\n\n  vec4 final = mix(image, image2, smoothstep(0., 1., moveImage));\n  \n  gl_FragColor = final;\n}";
+},{"b77c48b4fe89fd35":"lgJ39"}],"fK3iG":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "mouseUp", ()=>mouseUp);
+var _gsap = require("gsap");
+var _gsapDefault = parcelHelpers.interopDefault(_gsap);
+function mouseUp(mousePressed) {
+    (0, _gsapDefault.default).to(mousePressed, {
+        duration: 1,
+        value: 0,
+        ease: "elastic.out(1, 0.3)"
+    });
+}
 
-},{}],"7nUhQ":[function(require,module,exports) {
-module.exports = "#define GLSLIFY 1\nvarying vec2 vUv;\nvarying vec2 vCoordinates;\nvarying vec3 vPos;\n\nattribute vec3 aCoordinates;\nattribute float aSpeed;\nattribute float aOffset;\nattribute float aDirection;\nattribute float aPress;\n\nuniform float move;\nuniform float time;\nuniform vec2 mouse;\nuniform float mousePressed;\nuniform float transition;\nuniform float mouseMoveX;\nuniform float mouseMoveY;\n\nvoid main() {\n  vUv = uv;\n\n  vec3 pos = position;\n\n  //not stable\n  pos.x += sin(aSpeed) * 5000.;\n  pos.y += sin(aSpeed) * 500.;\n  pos.z = mod(position.z + move * 200. * aSpeed + aOffset, 2000.) - 1000.;\n\n  //stable\n  vec3 stable = position;\n  float dist = distance(stable.xy, mouse);\n  float area = 1. - smoothstep(0., 300., dist);\n\n  stable.x += 50. * sin(time*aPress * 10.) * aDirection * area * mousePressed + (-mouseMoveX) * 0.2;\n  stable.y += 50. * sin(time*aPress * 10.) * aDirection * area * mousePressed + (-mouseMoveY) * 0.2;\n  stable.z += 50. * cos(time*aPress) * aDirection * area * mousePressed;\n\n  pos = mix(pos, stable, transition);\n\n  vec4 mvPosition = modelViewMatrix * vec4(pos, 1.);\n  gl_PointSize = 3500. * (1. / -mvPosition.z);\n  gl_Position = projectionMatrix * mvPosition;\n\n  vCoordinates = aCoordinates.xy;\n  pos = vPos;\n}";
+},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"j4oQU":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "mouseDown", ()=>mouseDown);
+var _gsap = require("gsap");
+var _gsapDefault = parcelHelpers.interopDefault(_gsap);
+function mouseDown(mousePressed) {
+    (0, _gsapDefault.default).to(mousePressed, {
+        duration: 1,
+        value: 1,
+        ease: "elastic.out(1, 0.3)"
+    });
+}
 
-},{}],"mjAI1":[function(require,module,exports) {
+},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ep0M0":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "mouseMove", ()=>mouseMove);
+var _gsap = require("gsap");
+var _gsapDefault = parcelHelpers.interopDefault(_gsap);
+var _raycasterIntercept = require("../raycaster/raycasterIntercept");
+function mouseMove(mouseMoveX, mouseMoveY) {
+    (0, _gsapDefault.default).to(mouseMoveX, {
+        duration: 1,
+        value: (0, _raycasterIntercept.mousePoints).x,
+        ease: "ease.InOut"
+    });
+    (0, _gsapDefault.default).to(mouseMoveY, {
+        duration: 1,
+        value: (0, _raycasterIntercept.mousePoints).y,
+        ease: "ease.InOut"
+    });
+}
+
+},{"gsap":"fPSuC","../raycaster/raycasterIntercept":"lN1Gy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lN1Gy":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "mousePoints", ()=>mousePoints);
+parcelHelpers.export(exports, "raycasterIntercept", ()=>raycasterIntercept);
+var _three = require("three");
+const raycaster = new _three.Raycaster();
+const mouse = new _three.Vector2();
+const mousePoints = new _three.Vector2();
+function raycasterIntercept(event, camera) {
+    const test = new _three.Mesh(new _three.PlaneGeometry(2000, 2000), new _three.MeshBasicMaterial());
+    const clientX = event.clientX || event.changedTouches[0].clientX;
+    const clientY = event.clientY || event.changedTouches[0].clientY;
+    mouse.x = clientX / window.innerWidth * 2 - 1;
+    mouse.y = -(clientY / window.innerHeight) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    let intersects = raycaster.intersectObjects([
+        test
+    ]);
+    mousePoints.x = intersects[0].point.x;
+    mousePoints.y = intersects[0].point.y;
+}
+
+},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"mjAI1":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "tl", ()=>tl);
@@ -31710,140 +31809,26 @@ function imageAndContentTransition(transition, moveImage) {
     last = !last;
 }
 
-},{"gsap":"fPSuC","../textures":"emS5T","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lN1Gy":[function(require,module,exports) {
+},{"gsap":"fPSuC","../textures":"emS5T","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lWedg":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "mousePoints", ()=>mousePoints);
-parcelHelpers.export(exports, "raycasterIntercept", ()=>raycasterIntercept);
-var _three = require("three");
-const raycaster = new _three.Raycaster();
-const mouse = new _three.Vector2();
-const mousePoints = new _three.Vector2();
-function raycasterIntercept(event, camera) {
-    const test = new _three.Mesh(new _three.PlaneGeometry(2000, 2000), new _three.MeshBasicMaterial());
-    const clientX = event.clientX || event.changedTouches[0].clientX;
-    const clientY = event.clientY || event.changedTouches[0].clientY;
-    mouse.x = clientX / window.innerWidth * 2 - 1;
-    mouse.y = -(clientY / window.innerHeight) * 2 + 1;
-    raycaster.setFromCamera(mouse, camera);
-    let intersects = raycaster.intersectObjects([
-        test
-    ]);
-    mousePoints.x = intersects[0].point.x;
-    mousePoints.y = intersects[0].point.y;
-}
-
-},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6uRkp":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "backgroundParticle", ()=>backgroundParticle);
-var _three = require("three");
-var _backgroundFragmentGlsl = require("./shaders/backgroundFragment.glsl");
-var _backgroundFragmentGlslDefault = parcelHelpers.interopDefault(_backgroundFragmentGlsl);
-var _backgroundVertexGlsl = require("./shaders/backgroundVertex.glsl");
-var _backgroundVertexGlslDefault = parcelHelpers.interopDefault(_backgroundVertexGlsl);
-var _letterWMinPng = require("../../img/letter-w-min.png");
-var _letterWMinPngDefault = parcelHelpers.interopDefault(_letterWMinPng);
-function backgroundParticle(time) {
-    let numberOfPoints = 2304;
-    const bgGeometry = new _three.BufferGeometry();
-    const bgPosition = new _three.BufferAttribute(new Float32Array(numberOfPoints * 3), 3);
-    let bgIndex = 0;
-    for(let i = 0; i < 48; i++){
-        let posX = i - 24;
-        for(let j = 0; j < 48; j++){
-            bgPosition.setXYZ(bgIndex, posX * 50, (j - 24) * 50, Math.random() * 20000);
-            bgIndex++;
-        }
+parcelHelpers.export(exports, "screenOrientation", ()=>screenOrientation);
+var _contentOnLoad = require("../../2d/animations/contentOnLoad/contentOnLoad");
+var _fullScreen = require("../../fullScreen");
+var _onLoad = require("../onLoad");
+function screenOrientation(loadingContent, label, transition) {
+    (0, _fullScreen.launchFullScreen)(document.documentElement);
+    if (screen.orientation.type === "landscape-secondary" || screen.orientation.type === "landscape-primary") {
+        loadingContent.style.display = "none";
+        (0, _onLoad.onLoad)(transition);
+        (0, _contentOnLoad.contentOnLoad)();
+        return;
     }
-    const bgMaterial = new _three.ShaderMaterial({
-        fragmentShader: (0, _backgroundFragmentGlslDefault.default),
-        vertexShader: (0, _backgroundVertexGlslDefault.default),
-        uniforms: {
-            time: {
-                type: "f",
-                time
-            },
-            texture1: {
-                type: "t",
-                value: new _three.TextureLoader().load((0, _letterWMinPngDefault.default))
-            }
-        },
-        transparent: true,
-        depthTest: false,
-        depthWrite: false
-    });
-    const bgMesh = new _three.Points(bgGeometry, bgMaterial);
-    bgMesh.position.z = -2010;
-    bgGeometry.setAttribute("position", bgPosition);
-    return {
-        bgMesh,
-        bgMaterial
-    };
+    loadingContent.style.display = "flex";
+    label.innerText = "Rotate device!";
 }
 
-},{"three":"ktPTu","./shaders/backgroundFragment.glsl":"169to","./shaders/backgroundVertex.glsl":"fNaSv","../../img/letter-w-min.png":"72GNU","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"169to":[function(require,module,exports) {
-module.exports = "#define GLSLIFY 1\nvarying vec2 vUv;\n\nuniform sampler2D texture1;\nvoid main( void ) {\n  vec4 image = texture2D(texture1, gl_PointCoord);\n       \n  gl_FragColor = image;\n}";
-
-},{}],"fNaSv":[function(require,module,exports) {
-module.exports = "#define GLSLIFY 1\nvarying vec2 vUv;\n\nuniform float time;\n\nvoid main() {\n  vUv = uv;\n  \n  vec3 pos = position;\n  \n  pos.z += mod(100. * time, 2000.) - 1000.;\n  vec4 mvPosition = modelViewMatrix * vec4(pos, 1.);\n  gl_PointSize = 5000. * (1. / -mvPosition.z);\n  gl_Position = projectionMatrix * mvPosition;\n}";
-
-},{}],"72GNU":[function(require,module,exports) {
-module.exports = require("f727349419cfedc4").getBundleURL("cToyg") + "letter-w-min.d1e3185a.png" + "?" + Date.now();
-
-},{"f727349419cfedc4":"lgJ39"}],"j4oQU":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "mouseDown", ()=>mouseDown);
-var _gsap = require("gsap");
-var _gsapDefault = parcelHelpers.interopDefault(_gsap);
-function mouseDown(mousePressed) {
-    (0, _gsapDefault.default).to(mousePressed, {
-        duration: 1,
-        value: 1,
-        ease: "elastic.out(1, 0.3)"
-    });
-}
-
-},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fK3iG":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "mouseUp", ()=>mouseUp);
-var _gsap = require("gsap");
-var _gsapDefault = parcelHelpers.interopDefault(_gsap);
-function mouseUp(mousePressed) {
-    (0, _gsapDefault.default).to(mousePressed, {
-        duration: 1,
-        value: 0,
-        ease: "elastic.out(1, 0.3)"
-    });
-}
-
-},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"83lUv":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "onLoad", ()=>onLoad);
-var _gsap = require("gsap");
-var _gsapDefault = parcelHelpers.interopDefault(_gsap);
-function onLoad(transition) {
-    (0, _gsapDefault.default).to(transition, {
-        delay: 1,
-        duration: 2,
-        value: 1
-    });
-}
-
-},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7fBBF":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "launchFullScreen", ()=>launchFullScreen);
-function launchFullScreen(element) {
-    if (element.requestFullScreen) element.requestFullScreen();
-    else if (element.mozRequestFullScreen) element.mozRequestFullScreen();
-    else if (element.webkitRequestFullScreen) element.webkitRequestFullScreen();
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fbkhO":[function(require,module,exports) {
+},{"../../2d/animations/contentOnLoad/contentOnLoad":"fbkhO","../../fullScreen":"7fBBF","../onLoad":"83lUv","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fbkhO":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "loaded", ()=>loaded);
@@ -31876,6 +31861,64 @@ function contentOnLoad() {
     loaded = true;
 }
 
-},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["8DoVP","eUHT3"], "eUHT3", "parcelRequire749e")
+},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"83lUv":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "onLoad", ()=>onLoad);
+var _gsap = require("gsap");
+var _gsapDefault = parcelHelpers.interopDefault(_gsap);
+function onLoad(transition) {
+    (0, _gsapDefault.default).to(transition, {
+        delay: 1,
+        duration: 2,
+        value: 1
+    });
+}
+
+},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"blFYa":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "enter", ()=>enter);
+var _contentOnLoad = require("../2d/animations/contentOnLoad/contentOnLoad");
+var _fullScreen = require("../fullScreen");
+var _onLoad = require("./onLoad");
+var _textures = require("./textures");
+const progressBar = document.getElementById("progressBar");
+const logo = document.querySelector("svg text");
+const enterButton = document.getElementById("enter");
+const loadingContent = document.querySelector(".loadingContent");
+const label = document.querySelector("label");
+let strokeOfset = 2550;
+(0, _textures.loadingManager).onProgress = function(url, loaded, total) {
+    progressBar.value = loaded / total * 100;
+    strokeOfset -= loaded / total * 400;
+    if (strokeOfset < 0) strokeOfset = 0;
+    logo.style.strokeDashoffset = strokeOfset;
+};
+(0, _textures.loadingManager).onLoad = function() {
+    enterButton.classList.remove("hidden");
+    progressBar.classList.add("hidden");
+    label.innerText = "Ready!";
+};
+function enter(transition) {
+    if (window.innerHeight > window.innerWidth) {
+        enterButton.style.display = "none";
+        (0, _fullScreen.launchFullScreen)(document.documentElement);
+        if (screen.orientation.type === "landscape" || screen.orientation.type === "landscape-primary") {
+            loadingContent.style.display = "none";
+            (0, _onLoad.onLoad)(transition);
+            (0, _contentOnLoad.contentOnLoad)();
+            return;
+        }
+        loadingContent.style.display = "flex";
+        label.innerText = "Rotate device!";
+        return;
+    }
+    loadingContent.style.display = "none";
+    (0, _onLoad.onLoad)(transition);
+    (0, _contentOnLoad.contentOnLoad)();
+}
+
+},{"../2d/animations/contentOnLoad/contentOnLoad":"fbkhO","../fullScreen":"7fBBF","./onLoad":"83lUv","./textures":"emS5T","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["8DoVP","eUHT3"], "eUHT3", "parcelRequire749e")
 
 //# sourceMappingURL=index.7c8fd508.js.map
