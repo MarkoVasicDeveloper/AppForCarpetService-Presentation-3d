@@ -15,7 +15,7 @@ import { imageAndContentTransition, next, prev } from './animations/imageAndCont
 
 import { mousePoints, raycasterIntercept } from './raycaster/raycasterIntercept';
 
-import { screenOrientation } from './animations/screenOrientation';
+import { goodOrientation, screenOrientation } from './animations/screenOrientation';
 import { enter } from './loadingBar';
 
 const label = document.querySelector('label');
@@ -34,24 +34,29 @@ scene.add(bgMesh);
 scene.add(mesh);
 
 screen.orientation.addEventListener('change', () => screenOrientation(loadingContent, label, material.uniforms.transition));
-enterButton.addEventListener('click', () => enter(material.uniforms.transition));
 
-window.addEventListener('resize', () => onResize(camera, renderer));
-window.addEventListener('wheel', (e) => {
+enterButton.addEventListener('click', () => {
+  enter(material.uniforms.transition);
+
+  window.addEventListener('wheel', (e) => {
     move += e.deltaY / 1000;
     imageAndContentTransition(material.uniforms.transition, material.uniforms.moveImage);
-});
-window.addEventListener('mousemove', (event) => {
+  });
+  window.addEventListener('mousemove', (event) => {
     raycasterIntercept(event, camera);
     mouseMove(material.uniforms.mouseMoveX, material.uniforms.mouseMoveY);
+  });
+
+  window.addEventListener('touchmove', () => {
+    if(goodOrientation)
+      imageAndContentTransition(material.uniforms.transition, material.uniforms.moveImage);
+  });
+
+  window.addEventListener('mousedown', (e) => mouseDown(material.uniforms.mousePressed))
+  window.addEventListener('mouseup', () => mouseUp(material.uniforms.mousePressed));
 });
 
-window.addEventListener('touchmove', () => {
-    imageAndContentTransition(material.uniforms.transition, material.uniforms.moveImage);
-});
-
-window.addEventListener('mousedown', (e) => mouseDown(material.uniforms.mousePressed))
-window.addEventListener('mouseup', () => mouseUp(material.uniforms.mousePressed));
+window.addEventListener('resize', () => onResize(camera, renderer));
 
 function animation() {
 

@@ -587,7 +587,6 @@ var _imageAndContentTransition = require("./animations/imageAndContentTransition
 var _raycasterIntercept = require("./raycaster/raycasterIntercept");
 var _screenOrientation = require("./animations/screenOrientation");
 var _loadingBar = require("./loadingBar");
-var _fullScreen = require("../fullScreen");
 const label = document.querySelector("label");
 const enterButton = document.getElementById("enter");
 const loadingContent = document.querySelector(".loadingContent");
@@ -599,21 +598,25 @@ const { mesh , material  } = (0, _imageParticle.imageParticle)();
 scene.add(bgMesh);
 scene.add(mesh);
 screen.orientation.addEventListener("change", ()=>(0, _screenOrientation.screenOrientation)(loadingContent, label, material.uniforms.transition));
-enterButton.addEventListener("click", ()=>(0, _loadingBar.enter)(material.uniforms.transition));
+enterButton.addEventListener("click", ()=>{
+    (0, _loadingBar.enter)(material.uniforms.transition);
+    window.addEventListener("wheel", (e)=>{
+        move += e.deltaY / 1000;
+        (0, _imageAndContentTransition.imageAndContentTransition)(material.uniforms.transition, material.uniforms.moveImage);
+    });
+    window.addEventListener("mousemove", (event)=>{
+        (0, _raycasterIntercept.raycasterIntercept)(event, camera);
+        (0, _mouseMove.mouseMove)(material.uniforms.mouseMoveX, material.uniforms.mouseMoveY);
+    });
+    window.addEventListener("touchmove", ()=>{
+        console.log((0, _screenOrientation.goodOrientation));
+        console.log("touch move works");
+        if (0, _screenOrientation.goodOrientation) (0, _imageAndContentTransition.imageAndContentTransition)(material.uniforms.transition, material.uniforms.moveImage);
+    });
+    window.addEventListener("mousedown", (e)=>(0, _mouseDown.mouseDown)(material.uniforms.mousePressed));
+    window.addEventListener("mouseup", ()=>(0, _mouseUp.mouseUp)(material.uniforms.mousePressed));
+});
 window.addEventListener("resize", ()=>(0, _onResize.onResize)(camera, renderer));
-window.addEventListener("wheel", (e)=>{
-    move += e.deltaY / 1000;
-    (0, _imageAndContentTransition.imageAndContentTransition)(material.uniforms.transition, material.uniforms.moveImage);
-});
-window.addEventListener("mousemove", (event)=>{
-    (0, _raycasterIntercept.raycasterIntercept)(event, camera);
-    (0, _mouseMove.mouseMove)(material.uniforms.mouseMoveX, material.uniforms.mouseMoveY);
-});
-window.addEventListener("touchmove", ()=>{
-    (0, _imageAndContentTransition.imageAndContentTransition)(material.uniforms.transition, material.uniforms.moveImage);
-});
-window.addEventListener("mousedown", (e)=>(0, _mouseDown.mouseDown)(material.uniforms.mousePressed));
-window.addEventListener("mouseup", ()=>(0, _mouseUp.mouseUp)(material.uniforms.mousePressed));
 function animation() {
     material.uniforms.texture1.value = (0, _textures.textures)[0, _imageAndContentTransition.prev];
     material.uniforms.texture2.value = (0, _textures.textures)[0, _imageAndContentTransition.next];
@@ -628,7 +631,7 @@ function animation() {
 }
 animation();
 
-},{"three":"ktPTu","./Stage":"ezQx2","./onResize":"cqkBa","./backgroundParticle":"6uRkp","./imageParticle":"RO5aq","./textures":"emS5T","./animations/mouseUp":"fK3iG","./animations/mouseDown":"j4oQU","./animations/mouseMove":"ep0M0","./animations/imageAndContentTransition":"mjAI1","./raycaster/raycasterIntercept":"lN1Gy","./animations/screenOrientation":"lWedg","./loadingBar":"blFYa","../fullScreen":"7fBBF"}],"ktPTu":[function(require,module,exports) {
+},{"three":"ktPTu","./Stage":"ezQx2","./onResize":"cqkBa","./backgroundParticle":"6uRkp","./imageParticle":"RO5aq","./textures":"emS5T","./animations/mouseUp":"fK3iG","./animations/mouseDown":"j4oQU","./animations/mouseMove":"ep0M0","./animations/imageAndContentTransition":"mjAI1","./raycaster/raycasterIntercept":"lN1Gy","./animations/screenOrientation":"lWedg","./loadingBar":"blFYa"}],"ktPTu":[function(require,module,exports) {
 /**
  * @license
  * Copyright 2010-2023 Three.js Authors
@@ -31812,18 +31815,22 @@ function imageAndContentTransition(transition, moveImage) {
 },{"gsap":"fPSuC","../textures":"emS5T","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lWedg":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "goodOrientation", ()=>goodOrientation);
 parcelHelpers.export(exports, "screenOrientation", ()=>screenOrientation);
 var _contentOnLoad = require("../../2d/animations/contentOnLoad/contentOnLoad");
 var _fullScreen = require("../../fullScreen");
 var _onLoad = require("../onLoad");
+let goodOrientation = false;
 function screenOrientation(loadingContent, label, transition) {
     (0, _fullScreen.launchFullScreen)(document.documentElement);
     if (screen.orientation.type === "landscape-secondary" || screen.orientation.type === "landscape-primary") {
+        goodOrientation = true;
         loadingContent.style.display = "none";
         (0, _onLoad.onLoad)(transition);
         (0, _contentOnLoad.contentOnLoad)();
         return;
     }
+    goodOrientation = false;
     loadingContent.style.display = "flex";
     label.innerText = "Rotate device!";
 }
@@ -31861,7 +31868,17 @@ function contentOnLoad() {
     loaded = true;
 }
 
-},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"83lUv":[function(require,module,exports) {
+},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7fBBF":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "launchFullScreen", ()=>launchFullScreen);
+function launchFullScreen(element) {
+    if (element.requestFullScreen) element.requestFullScreen();
+    else if (element.mozRequestFullScreen) element.mozRequestFullScreen();
+    else if (element.webkitRequestFullScreen) element.webkitRequestFullScreen();
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"83lUv":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "onLoad", ()=>onLoad);

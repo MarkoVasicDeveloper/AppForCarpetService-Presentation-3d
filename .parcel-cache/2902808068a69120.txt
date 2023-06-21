@@ -46,7 +46,7 @@
 97C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\caniuse-lite\data\regions\SZ.js133316318866691166 0
 84C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\.package-lock.json133316320183063419 0
 107C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\@parcel\reporter-dev-server\src\Server.js133316318536214120 0
-57C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist133317698397620113 1
+57C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist133317701591891860 1
 88C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\murmurhash-js\index.js133316318451897189 0
 110C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\@msgpackr-extract\msgpackr-extract-win32-x64133316318502949862 1
 98C:\Users\38160\Desktop\Nova fascikla\presentation-3d\src\js\2d\animations\socialLink\socialLink.js133315488739168423 0
@@ -61,7 +61,7 @@
 97C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\three\src\cameras\CubeCamera.js133316316588138171 0
 90C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\function-bind\.jscs.json133316318532453191 0
 63C:\Users\38160\Desktop\Nova fascikla\presentation-3d\index.html133317693985386158 0
-61C:\Users\38160\Desktop\Nova fascikla\presentation-3d\index.js133317675439714688 0
+61C:\Users\38160\Desktop\Nova fascikla\presentation-3d\index.js133317700468163765 0
 132C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\three\src\renderers\shaders\ShaderChunk\dithering_fragment.glsl.js133316316591979094 0
 137C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\msgpackr-extract\node_modules\.bin\node-gyp-build-optional-packages.cmd133316319730010816 0
 80C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\@choojs\findup133316318494307736 1
@@ -162,7 +162,7 @@
 80C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\css-select\lib133316318663840785 1
 82C:\Users\38160\Desktop\Nova fascikla\presentation-3d\src\js\three\imageParticle.js133316338369863587 0
 101C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\@parcel\utils\src\getCertificate.js133316318665601190 0
-79C:\Users\38160\Desktop\Nova fascikla\presentation-3d\src\js\three\indexThree.js133317673788800466 0
+79C:\Users\38160\Desktop\Nova fascikla\presentation-3d\src\js\three\indexThree.js133317701412748707 0
 99C:\Users\38160\Desktop\Nova fascikla\presentation-3d\src\js\2d\animations\circle\circleAnimation.js133308697791456168 0
 94C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\dat.gui\rollup.config.min.js133316318679364611 0
 98C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\@swc\helpers\_\_get_prototype_of133316318794433197 1
@@ -4666,7 +4666,7 @@
 97C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\caniuse-lite\data\regions\PR.js133316318861569871 0
 97C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\caniuse-lite\data\regions\PS.js133316318861969981 0
 97C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\caniuse-lite\data\regions\PT.js133316318862049999 0
-75C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist\index.3d214d75.js133317693242343913 0
+75C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist\index.3d214d75.js133317701591171680 0
 97C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\caniuse-lite\data\regions\QA.js133316318862370071 0
 97C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\caniuse-lite\data\regions\RE.js133316318862450099 0
 97C:\Users\38160\Desktop\Nova fascikla\presentation-3d\node_modules\caniuse-lite\data\regions\RS.js133316318863010223 0
@@ -6214,9 +6214,9 @@
 79C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist\fast-min.cc310b99.png133317698396316706 0
 76C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist\index.3a01df49.css133317698397072656 0
 80C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist\index.3a01df49.css.map133317698397151235 0
-79C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist\index.3d214d75.js.map133317698397463801 0
-75C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist\index.7c8fd508.js133317693242423930 0
-79C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist\index.7c8fd508.js.map133317698397620113 0
+79C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist\index.3d214d75.js.map133317701591731825 0
+75C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist\index.7c8fd508.js133317701591091663 0
+79C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist\index.7c8fd508.js.map133317701591811821 0
 83C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist\laptop-3-min.94fd207f.png133317698396316706 0
 81C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist\laptop-min.0cfc0079.png133317698396316706 0
 83C:\Users\38160\Desktop\Nova fascikla\presentation-3d\dist\letter-w-min.d1e3185a.png133317698396316706 0
