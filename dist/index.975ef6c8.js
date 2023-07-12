@@ -604,37 +604,7 @@ navButton.addEventListener("click", ()=>{
 navBar.addEventListener("mousemove", (e)=>(0, _mouseMove.mouseMove)(horisontalLines, e));
 navBar.addEventListener("mouseleave", ()=>(0, _mouseLeave.mouseLeave)(horisontalLines));
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./js/2d/animations/circle/circleAnimation":"kSlU9","./js/2d/animations/hideNav/hideAnimation":"5KK5P","./js/2d/animations/horisontalLines/mouseLeave":"jEJtz","./js/2d/animations/horisontalLines/mouseMove":"5oeD2","./js/2d/animations/socialLink/socialLink":"cZFmK"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"kSlU9":[function(require,module,exports) {
+},{"./js/2d/animations/circle/circleAnimation":"kSlU9","./js/2d/animations/hideNav/hideAnimation":"5KK5P","./js/2d/animations/horisontalLines/mouseLeave":"jEJtz","./js/2d/animations/horisontalLines/mouseMove":"5oeD2","./js/2d/animations/socialLink/socialLink":"cZFmK","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kSlU9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "tl3", ()=>tl3);
@@ -665,7 +635,7 @@ function circleAnimation(spiner, navBar, line, horisontalLines, liSpan) {
     });
 }
 
-},{"gsap":"fPSuC","./circlePath":"9CoE4","../showNav/showAnimation":"3IVYd","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../../..":"8lqZg"}],"fPSuC":[function(require,module,exports) {
+},{"gsap":"fPSuC","./circlePath":"9CoE4","../../../..":"8lqZg","../showNav/showAnimation":"3IVYd","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fPSuC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "gsap", ()=>gsapWithCSS);
@@ -3703,7 +3673,37 @@ _coreReady = 1;
 _windowExists() && _wake();
 var Power0 = _easeMap.Power0, Power1 = _easeMap.Power1, Power2 = _easeMap.Power2, Power3 = _easeMap.Power3, Power4 = _easeMap.Power4, Linear = _easeMap.Linear, Quad = _easeMap.Quad, Cubic = _easeMap.Cubic, Quart = _easeMap.Quart, Quint = _easeMap.Quint, Strong = _easeMap.Strong, Elastic = _easeMap.Elastic, Back = _easeMap.Back, SteppedEase = _easeMap.SteppedEase, Bounce = _easeMap.Bounce, Sine = _easeMap.Sine, Expo = _easeMap.Expo, Circ = _easeMap.Circ;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l02JQ":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"l02JQ":[function(require,module,exports) {
 /*!
  * CSSPlugin 3.12.1
  * https://greensock.com
@@ -4710,7 +4710,7 @@ function showAnimation(line, horisontalLines, liSpan) {
     (0, _.setCounter)((0, _.counter) + 1);
 }
 
-},{"gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../../..":"8lqZg"}],"5KK5P":[function(require,module,exports) {
+},{"gsap":"fPSuC","../../../..":"8lqZg","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5KK5P":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "hideAnimation", ()=>hideAnimation);
@@ -4751,7 +4751,7 @@ function hideAnimation(line, liSpan, horisontalLines, navBar) {
     (0, _.setCounter)(0);
 }
 
-},{"gsap":"fPSuC","../circle/circleAnimation":"kSlU9","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../../..":"8lqZg"}],"jEJtz":[function(require,module,exports) {
+},{"gsap":"fPSuC","../../../..":"8lqZg","../circle/circleAnimation":"kSlU9","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jEJtz":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "mouseLeave", ()=>mouseLeave);
