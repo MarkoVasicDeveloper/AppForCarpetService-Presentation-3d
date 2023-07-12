@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 
-import { counter, setCounter } from "../../../../..";
+import { counter, setCounter } from "../../../..";
 
 const tl = gsap.timeline({paused: true});
 

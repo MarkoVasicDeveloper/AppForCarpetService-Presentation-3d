@@ -609,8 +609,6 @@ enterButton.addEventListener("click", ()=>{
         (0, _mouseMove.mouseMove)(material.uniforms.mouseMoveX, material.uniforms.mouseMoveY);
     });
     window.addEventListener("touchmove", ()=>{
-        console.log((0, _screenOrientation.goodOrientation));
-        console.log("touch move works");
         if (0, _screenOrientation.goodOrientation) (0, _imageAndContentTransition.imageAndContentTransition)(material.uniforms.transition, material.uniforms.moveImage);
     });
     window.addEventListener("mousedown", (e)=>(0, _mouseDown.mouseDown)(material.uniforms.mousePressed));
@@ -31718,8 +31716,8 @@ function raycasterIntercept(event, camera) {
     let intersects = raycaster.intersectObjects([
         test
     ]);
-    mousePoints.x = intersects[0].point.x;
-    mousePoints.y = intersects[0].point.y;
+    mousePoints.x = intersects[0].point?.x;
+    mousePoints.y = intersects[0].point?.y;
 }
 
 },{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"mjAI1":[function(require,module,exports) {

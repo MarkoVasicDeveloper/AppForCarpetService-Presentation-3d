@@ -20,6 +20,6 @@ export function raycasterIntercept (event, camera) {
 
     let intersects = raycaster.intersectObjects([test]);
 
-    mousePoints.x = intersects[0].point.x;
-    mousePoints.y = intersects[0].point.y;
+    mousePoints.x = intersects[0].point?.x;
+    mousePoints.y = intersects[0].point?.y;
 }

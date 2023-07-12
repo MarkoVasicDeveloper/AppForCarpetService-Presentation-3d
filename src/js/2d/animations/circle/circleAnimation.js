@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 import { paths } from './circlePath';
-import { counter } from '../../../../..';
+import { counter } from '../../../..';
 import { showAnimation } from '../showNav/showAnimation';
 
 export const tl3 = gsap.timeline({paused: true});

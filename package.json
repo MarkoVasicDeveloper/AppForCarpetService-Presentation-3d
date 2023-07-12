@@ -1,10 +1,13 @@
 {
+  "homepage": "https://markovasicdeveloper.github.io/AppForCarpetService-Presentation-3d",
   "name": "carpet-service-presentation",
   "version": "1.0.0",
   "description": "App for carpet service - presentation",
-  "main": "index.js",
   "scripts": {
-    "start": "parcel index.html && parcel watch index.html"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
+    "start": "parcel src/index.html && parcel watch src/index.html",
+    "build": "parcel build src/index.html --public-url ./"
   },
   "author": "Marko Vasic",
   "license": "ISC",
@@ -16,6 +19,7 @@
     "@parcel/transformer-glsl": "^2.9.2",
     "@parcel/transformer-image": "^2.9.2",
     "dat.gui": "^0.7.9",
+    "gh-pages": "^5.0.0",
     "parcel": "^2.9.2"
   }
 }
