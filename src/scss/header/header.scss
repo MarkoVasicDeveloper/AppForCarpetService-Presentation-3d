@@ -1,0 +1,38 @@
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    color: $secondary-color;
+    padding: 0.5rem 1rem;
+    display: flex;
+
+    .logo {
+        text-transform: uppercase;
+        font-size: $logo-font-size;
+        font-weight: bold;
+        flex-grow: 1;
+
+        span {
+            margin-left: 10%;
+        }
+    }
+
+    .nav-holder {
+        position: relative;
+        z-index: 100;
+        flex-grow: 1;
+
+        button {
+            float: right;
+            margin-right: 10%;
+            background-color: transparent;
+            border: none;
+            color: $secondary-color;
+            font-size: $button-font-size;
+            cursor: pointer;
+        }
+
+        @import 'menu';
+    }
+}

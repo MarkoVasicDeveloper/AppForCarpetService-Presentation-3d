@@ -1,0 +1,53 @@
+.socialLinks {
+  left: auto;
+  right: 0;
+  bottom: 0;
+  width: 30px;
+  writing-mode: vertical-lr;
+  height: 80%;
+  @include flex(flex-end, flex-end);
+  z-index: 1000;
+  
+  span {
+    color: $secondary-color;
+    font-size: 1.7rem;
+    cursor: pointer;
+    transition: 500ms ease;
+  
+    &:nth-child(1) {
+      color: $accent-color;
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  
+    &:nth-child(2) {
+      margin-inline: 1rem;
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  
+    &:nth-child(3):hover {
+      color: $primary-color;
+    }
+  }
+}
+
+@media (max-width: $mobile) {
+  .socialLinks span {
+      font-size: 1.1rem;
+  }
+}
+
+@media (max-height: $xl-mobile) {
+  .socialLinks span {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-height: $s-mobile) {
+  .socialLinks span {
+    font-size: 0.7rem;
+  }
+}

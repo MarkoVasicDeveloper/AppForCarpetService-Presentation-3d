@@ -18,6 +18,7 @@
   "devDependencies": {
     "@parcel/transformer-glsl": "^2.9.2",
     "@parcel/transformer-image": "^2.9.2",
+    "@parcel/transformer-sass": "^2.9.2",
     "dat.gui": "^0.7.9",
     "gh-pages": "^5.0.0",
     "parcel": "^2.9.2"

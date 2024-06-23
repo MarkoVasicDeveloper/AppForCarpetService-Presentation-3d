@@ -1,0 +1,30 @@
+section div .jumping-letter span {
+    position: relative;
+    display: inline-block;
+    animation: jumpingLetter 3s ease infinite;
+    color: accent-color;
+  }
+  
+  @keyframes jumpingLetter {
+      0%{
+          transform: translateY(0%) rotate(0deg);
+      }
+      40%{
+          transform: translateY(0%) rotate(0deg);
+      }
+      50%{
+          transform: translateY(-50%) rotate(180deg);
+      }
+      60%{
+          transform: translateY(0%) rotate(360deg);
+      }
+      100%{
+          transform: translateY(0%) rotate(360deg);
+      }
+  }
+
+  @for $i from 1 through 12 {
+    .jumping-letter > span:nth-child(#{$i}) {
+      animation-delay: map-get($animation-delays, $i);
+    }
+  }

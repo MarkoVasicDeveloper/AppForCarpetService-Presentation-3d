@@ -1,0 +1,12 @@
+.spiner {
+    position: absolute;
+    top: -25px;
+    right: -6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: $white-color;
+    z-index: 1;
+    transform-origin: top;
+    clip-path: polygon(50% 50%, 100% 50%, 100% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%);
+}

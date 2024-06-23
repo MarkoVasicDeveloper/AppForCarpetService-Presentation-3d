@@ -1,0 +1,28 @@
+.uvLampDiv{
+    @include flex(flex-end);
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background: $background-color;
+    z-index: 10;
+
+    .lamp{
+        width: 5px;
+        height: 100%;
+        border-radius: 3px;
+        background-color: $lamp-color;
+        box-shadow: 0 0 20px $lamp-shadow-color,
+                    0 0 40px $lamp-shadow-color,
+                    0 0 80px $lamp-shadow-color,
+                    0 0 160px $lamp-shadow-color;
+        transform: scale(0);
+    }
+}
+
+@media (max-width: $mobile) {
+    .uvLampDiv{
+        height: 95%;
+    }
+}

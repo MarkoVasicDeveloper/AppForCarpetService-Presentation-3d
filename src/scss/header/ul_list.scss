@@ -1,0 +1,47 @@
+ul {
+    li {
+        position: relative;
+        font-size: 3rem;
+        font-weight: bold;
+        list-style: none;
+        text-align: right;
+        padding-right: 2rem;
+        cursor: pointer;
+        opacity: 0;
+
+        span {
+            a {
+                color: $black-color;
+                text-shadow: -1px -1px 0 $shadow-color, 1px -1px 0 $shadow-color, -1px 1px 0 $shadow-color, 1px 1px 0 $shadow-color;
+                transition: 500ms all;
+                text-decoration-thickness: 1px;
+                text-decoration-color: $primary-color;
+                text-decoration-style: dotted;
+            }
+        }
+
+        &:hover {
+            span > a {
+              color: $shadow-color;
+            }
+
+            &::after {
+              background-color: $white-color;
+            }
+        }
+
+        &::after {
+            position: absolute;
+            content: '';
+            top: 50%;
+            right: -8px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: $white-color;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            transition: 500ms ease;
+        }
+    }
+}

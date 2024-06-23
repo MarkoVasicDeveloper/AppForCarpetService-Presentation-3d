@@ -1,0 +1,14 @@
+.fire{
+    width: 0;
+    height: 0;
+}
+
+section .fireH2{
+  filter: url(#fire);
+  font-size: 2rem;
+  color: $fire-color;
+  text-shadow: 0 0 10px $fire-color,
+                  0 0 40px $fire-color,
+                  0 0 80px $fire-color;
+  -webkit-box-reflect: below -10px linear-gradient(transparent, #0003);
+}

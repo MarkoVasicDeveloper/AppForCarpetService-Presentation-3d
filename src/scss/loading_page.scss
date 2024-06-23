@@ -1,0 +1,53 @@
+.loadingContent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: $gray-color;
+    @include flex();
+    flex-direction: column;
+    z-index: 1000000000;
+    overflow: hidden;
+
+    #progressBar {
+        width: 30%;
+        margin-top: 0.5%;
+        height: 2%;
+    }
+
+    label {
+        color: $secondary-color;
+        font-size: $logo-font-size;
+    }
+
+    button {
+        width: 15%;
+        height: $button-height;
+        padding: 0.3rem;
+        cursor: pointer;
+        margin-top: 0.5rem;
+        border-radius: 10px;
+        border: none;
+        background-color: $secondary-color;
+        font-size: 1rem;
+        color: $button-color;
+        font-family: $font-family-alt;
+    }
+
+    svg {
+        width: 100%;
+
+        text {
+            stroke: $progress-bar-color;
+            stroke-width: 5;
+            stroke-dasharray: 2550;
+            stroke-dashoffset: 2550;
+            z-index: 10000;
+        }
+    }
+  }
+
+.hidden {
+    display: none;
+}

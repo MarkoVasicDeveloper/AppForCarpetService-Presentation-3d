@@ -1,5 +1,6 @@
 
-.parcel-cache
-dist
+.parcel-cache/
+dist/
+node_modules/
 
-/build
+/build/
