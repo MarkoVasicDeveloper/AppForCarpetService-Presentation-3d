@@ -6,7 +6,6 @@
   writing-mode: vertical-lr;
   height: 80%;
   @include flex(flex-end, flex-end);
-  z-index: 1000;
   
   span {
     color: $secondary-color;

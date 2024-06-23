@@ -1,8 +1,10 @@
 import gsap from 'gsap';
+import { setAnimating } from '../../../..';
 
 const socialLinks = document.querySelectorAll('.socialLinks span');
 const reversedSocialLinks = Array.from(socialLinks).reverse();
 
+let timelineCreated = false;
 let socialTimeline = gsap.timeline({ paused: true });
 
 function createTimeline() {
@@ -13,7 +15,8 @@ function createTimeline() {
 
     socialTimeline.to(link, {
       duration: 0.1,
-      scale: 0.5
+      scale: 0.5,
+      onStart: () => index === 0 ? setAnimating(true) : null
     })
     .to(link, {
       duration: 0.1,
@@ -26,14 +29,14 @@ function createTimeline() {
       scale: 1
     });
   });
+  timelineCreated = true;
 }
 
 export function socialLinksMove() {
-  socialTimeline = gsap.timeline({ paused: true });
-  createTimeline();
+  if(!timelineCreated) createTimeline();
   socialTimeline.play();
 }
 
 export function socialLinkBack() {
-  socialTimeline.reverse();
+  setTimeout(() => socialTimeline.reverse(), 1000);
 }

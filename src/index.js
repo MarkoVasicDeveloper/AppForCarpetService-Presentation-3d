@@ -15,8 +15,11 @@ const spiner = document.querySelector('.spiner');
 export let counter = 0;
 export const setCounter = (value) => counter = value;
 
+export let isAnimating = false;
+export const setAnimating = (value) => isAnimating = value;
+
 navButton.addEventListener('click', () => {
-  
+  if (isAnimating) return;
   if(counter === 0) {
     socialLinksMove();
     circleAnimation(spiner, navBar, line, horisontalLines, liSpan);

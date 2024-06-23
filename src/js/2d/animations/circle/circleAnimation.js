@@ -11,6 +11,7 @@ export function circleAnimation (spiner, navBar, line, horisontalLines, liSpan) 
   tl3.to(navBar, { 
     x: 0,
     duration: 0.01,
+    delay: 1
   });
   
   paths.forEach((path, index) => {
