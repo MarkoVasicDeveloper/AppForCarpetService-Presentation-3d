@@ -12,3 +12,15 @@ section .fireH2{
                   0 0 80px $fire-color;
   -webkit-box-reflect: below -10px linear-gradient(transparent, #0003);
 }
+
+@media (max-height: $xl-mobile) {
+  section .fireH2{
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-height: $s-mobile) {
+  section .fireH2{
+    font-size: 1rem;
+  }
+}

@@ -36,3 +36,11 @@ header {
         @import 'menu';
     }
 }
+
+@media (max-height: $xl-mobile) {
+    header {
+        .logo {
+            font-size: $logo-small-font;
+        }
+    }
+}
