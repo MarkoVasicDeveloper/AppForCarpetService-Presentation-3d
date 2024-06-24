@@ -87,6 +87,16 @@ p span {
   }
 }
 
+@media (max-height: $xl-mobile) {
+  h1, h2 {
+    font-size: .85rem;
+  }
+
+  p {
+    font-size: .7rem;
+  }
+}
+
 @media (max-height: $s-mobile) {
   h1, h2 {
     font-size: .8rem;
