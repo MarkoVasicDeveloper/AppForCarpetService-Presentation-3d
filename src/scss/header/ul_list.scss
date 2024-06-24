@@ -45,3 +45,11 @@ ul {
         }
     }
 }
+
+@media (max-height: $s-mobile) {
+    ul {
+        li {
+            font-size: 2rem;
+        }
+    }
+}

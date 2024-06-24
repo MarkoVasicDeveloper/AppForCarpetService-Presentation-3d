@@ -27,3 +27,9 @@
 
     @import 'nav_animation';
 }
+
+@media (max-height: $s-mobile) {
+    .menu {
+        width: 300px;
+    }
+}
