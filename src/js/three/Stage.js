@@ -1,19 +1,13 @@
 import * as THREE from 'three';
 
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-
 export function Stage () {
   const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerWidth, 0.1, 3000);
   const scene = new THREE.Scene();
   const renderer = new THREE.WebGLRenderer({antialias: true});
-
-  // var controls = new OrbitControls( camera, renderer.domElement );
   
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   camera.position.set(0, 0, 1000);
-  
-  // controls.update();
 
   const ambientalLight = new THREE.AmbientLight(0xffffff, 10);
 
